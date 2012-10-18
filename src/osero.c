@@ -15,7 +15,6 @@
 
 #include "osero.h"
 
-
 void osero_init(void){
 	
 	led_start();
