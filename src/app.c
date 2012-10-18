@@ -137,11 +137,6 @@ void app_demo(void)
 		_delay_us(100);
 	}
 }
-
-void app_osero(void){
-	osero_main();
-}
-
 void app_sound(void)
 {
 	//�O????�c
@@ -200,3 +195,11 @@ void app_sound(void)
 	//}
 	//}
 }
+void app_osero(void){
+	osero_main();
+}
+void app_tetris(void){
+	call_tetris();
+}
+
+

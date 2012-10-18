@@ -38,7 +38,7 @@ int8_t _mes_menu[17];
 extern uint8_t _exit_flag;
 
 const int8_t _mes_menu_select_top_0[] PROGMEM = "Letro: SelectApp";
-const int8_t _mes_menu_select_app_list_1[3][20] PROGMEM = {"01 : Demo       ","02 : Sound Test ","03 : Othero     "};
+const int8_t _mes_menu_select_app_list_1[4][20] PROGMEM = {"01 : Demo       ","02 : Sound Test ","03 : Othero     ","04 : TETRIS     "};
 
 void menu_init(void)
 {
@@ -53,6 +53,7 @@ void menu_exec(uint8_t mode)
 		case MENU_DEMO  : app_demo();  break;
 		case MENU_SOUND : app_sound(); break;
 		case MENU_OTHERO: app_osero(); break;
+		case MENU_TETRIS: app_tetris(); break;
 	}
 }
 
@@ -94,19 +95,25 @@ void menu(void)
 		{
 			if(menu_mode==MENU_DEMO)
 			{
-				menu_mode=MENU_SOUND;
+				menu_mode=MENU_TETRIS;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_SOUND)
 			{
-				menu_mode=MENU_OTHERO;
+				menu_mode=MENU_DEMO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_OTHERO)
 			{
-				menu_mode=MENU_DEMO;
+				menu_mode=MENU_SOUND;
+				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
+				lcd_put_data(1,_mes_menu);
+			}
+			else if(menu_mode==MENU_TETRIS)
+			{
+				menu_mode=MENU_OTHERO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
@@ -121,11 +128,16 @@ void menu(void)
 			}
 			else if(menu_mode==MENU_SOUND)
 			{
-				menu_mode=MENU_DEMO;
+				menu_mode=MENU_OTHERO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_OTHERO){
+				menu_mode=MENU_TETRIS;
+				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
+				lcd_put_data(1,_mes_menu);
+			}
+			else if(menu_mode==MENU_TETRIS){
 				menu_mode=MENU_DEMO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
@@ -151,18 +163,23 @@ void menu(void)
 		{
 			if(menu_mode==MENU_DEMO)
 			{
-				menu_mode=MENU_SOUND;
+				menu_mode=MENU_TETRIS;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_SOUND)
 			{
-				menu_mode=MENU_OTHERO;
+				menu_mode=MENU_DEMO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_OTHERO){
-				menu_mode=MENU_DEMO;
+				menu_mode=MENU_SOUND;
+				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
+				lcd_put_data(1,_mes_menu);
+			}
+			else if(menu_mode==MENU_TETRIS){
+				menu_mode=MENU_OTHERO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
 				lcd_put_data(1,_mes_menu);
 			}
@@ -182,6 +199,12 @@ void menu(void)
 				lcd_put_data(1,_mes_menu);
 			}
 			else if(menu_mode==MENU_OTHERO)
+			{
+				menu_mode=MENU_TETRIS;
+				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
+				lcd_put_data(1,_mes_menu);
+			}
+			else if(menu_mode==MENU_TETRIS)
 			{
 				menu_mode=MENU_DEMO;
 				strcpy_P(_mes_menu,_mes_menu_select_app_list_1[menu_mode]);
