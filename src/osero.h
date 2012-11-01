@@ -13,6 +13,8 @@ int old_map;
 int kaisuu=0;
 char lcd_bf[17];
 
+int red_stone=0, green_stone=0;
+
 void map_idou(void);
 void read_button(switch_state*);
 

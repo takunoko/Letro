@@ -1,0 +1,5 @@
+Ubuntu
+avr-gccと書き込みソフトのインストール
+
+sudo apt-get install avr-libc avrdude
+

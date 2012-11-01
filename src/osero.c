@@ -16,11 +16,8 @@
 #include "osero.h"
 
 void osero_init(void){
-	
 	led_start();
 
-	lcd_put_data(0,"Green turn      ");
-		
 	map[7][7]=map[8][8]=LED_GREEN;
 	led_plot(LED_GREEN,7,7);
 	led_plot(LED_GREEN,8,8);
@@ -70,7 +67,7 @@ void osero_main(void){
 			led_plot(LED_NONE,map_x,map_y);
 			led_plot(old_map,map_x,map_y);
 		}
-		if(blink_led == 5500){
+		if(blink_led == 6000){
 			led_plot(LED_YELLOW,map_x,map_y);
 			blink_led = 0;
 		}
@@ -78,43 +75,31 @@ void osero_main(void){
 		switch_get(SWITCH_CONT_P1,&switch_state_p1);
 		if((switch_state_p1.switch_u==1)&&(switch_state_p1.switch_prev_u==0)){
 			osero_map_idou_up();
-			lcd_put_data(1,"ue              ");
 		}else if((switch_state_p1.switch_d==1)&&(switch_state_p1.switch_prev_d==0)){
 			osero_map_idou_down();
-			lcd_put_data(1,"sita            ");
 		}else if((switch_state_p1.switch_l==1)&&(switch_state_p1.switch_prev_l==0)){
 			osero_map_idou_left();
-			lcd_put_data(1,"hidari          ");
 		}else if((switch_state_p1.switch_r==1)&&(switch_state_p1.switch_prev_r==0)){
 			osero_map_idou_right();
-			lcd_put_data(1,"migi            ");
 		}else if((switch_state_p1.switch_a==1)&&(switch_state_p1.switch_prev_a==0)){
 			osero_map_idou_put();
-			lcd_put_data(1,"put             ");
 		}else if((switch_state_p1.switch_b==1)&&(switch_state_p1.switch_prev_b==0)){
 			osero_map_idou_skip();
-			lcd_put_data(1,"skip            ");
 		}
 
 		switch_get(SWITCH_CONT_P0,&switch_state_p0);
 		if((switch_state_p0.switch_u==1)&&(switch_state_p0.switch_prev_u==0)){
 			osero_map_idou_up();
-			lcd_put_data(1,"ue              ");
 		}else if((switch_state_p0.switch_d==1)&&(switch_state_p0.switch_prev_d==0)){
 			osero_map_idou_down();
-			lcd_put_data(1,"sita            ");
 		}else if((switch_state_p0.switch_l==1)&&(switch_state_p0.switch_prev_l==0)){
 			osero_map_idou_left();
-			lcd_put_data(1,"hidari          ");
 		}else if((switch_state_p0.switch_r==1)&&(switch_state_p0.switch_prev_r==0)){
 			osero_map_idou_right();
-			lcd_put_data(1,"migi            ");
 		}else if((switch_state_p0.switch_a==1)&&(switch_state_p0.switch_prev_a==0)){
 			osero_map_idou_put();
-			lcd_put_data(1,"put             ");
 		}else if((switch_state_p0.switch_b==1)&&(switch_state_p0.switch_prev_b==0)){
 			osero_map_idou_skip();
-			lcd_put_data(1,"skip            ");
 		}
 
 		iro = (put_kaisuu%2+1);	
@@ -337,11 +322,8 @@ void osero_map_idou_put(void){
 		put_kaisuu++;
 		kaisuu++;
 		if (put_kaisuu%2) {
-			lcd_put_data(0,"Red turn        ");
 		}else{
-			lcd_put_data(0,"Green turn      ");
 		}
-
 		if(kaisuu >= 60){
 			win();
 		}
@@ -356,17 +338,57 @@ void osero_map_idou_put(void){
 		led_plot(iro,map_x,map_y);
 		
 		led_plot(LED_YELLOW,map_x,map_y);
+		
+		//今の数を表示
+		for (i = 0; i < 8; i++) {
+			for (i2 = 0; i2 < 8; i2++) {
+				if(map[i+4][i2+4] == 2){
+					red_stone++;
+				}else if(map[i+4][i2+4] == 1){
+					green_stone++;
+				}
+			}
+		}
+		if(kaisuu % 2 == 1){
+			green_stone++;
+		}else{
+			red_stone++;
+		}
+		sprintf(lcd_bf,"RED   : %2d             ",red_stone);
+		lcd_put_data(0,lcd_bf);
+		sprintf(lcd_bf,"GREEN : %2d           ",green_stone);
+		lcd_put_data(1,lcd_bf);
+		
+		green_stone = 0;
+		red_stone = 0;
+		
+		led_plot_line(LED_NONE, 0, 0, 0, 15);
+		led_plot_line(LED_NONE, 0, 0, 15, 0);
+		led_plot_line(LED_NONE, 15, 0, 15, 15);
+		led_plot_line(LED_NONE, 0, 15, 15, 15);
+		
+		led_plot_line(put_kaisuu%2+1, 0, 0, 0, 15);
+		led_plot_line(put_kaisuu%2+1, 0, 0, 15, 0);
+		led_plot_line(put_kaisuu%2+1, 15, 0, 15, 15);
+		led_plot_line(put_kaisuu%2+1, 0, 15, 15, 15);
+
 	}
 }
 
 //スキップイベントハンドラ
 void osero_map_idou_skip(void){
 	put_kaisuu++;
-	if (put_kaisuu%2) {
-		lcd_put_data(0,"Red turn        ");
-	}else{
-		lcd_put_data(0,"Green turn      ");
-	}
+	
+	led_plot_line(LED_NONE, 0, 0, 0, 15);
+	led_plot_line(LED_NONE, 0, 0, 15, 0);
+	led_plot_line(LED_NONE, 15, 0, 15, 15);
+	led_plot_line(LED_NONE, 0, 15, 15, 15);
+
+	led_plot_line(put_kaisuu%2+1, 0, 0, 0, 15);
+	led_plot_line(put_kaisuu%2+1, 0, 0, 15, 0);
+	led_plot_line(put_kaisuu%2+1, 15, 0, 15, 15);
+	led_plot_line(put_kaisuu%2+1, 0, 15, 15, 15);
+
 }
 
 //勝敗判定
@@ -384,7 +406,7 @@ void win(void){
 			}
 		}
 	}
-	sprintf(lcd_bf,"RED : %2d        ",isi_red);
+	sprintf(lcd_bf,"RED   : %2d        ",isi_red);
 	lcd_put_data(0,lcd_bf);
 	sprintf(lcd_bf,"GREEN : %2d     ",isi_green);
 	lcd_put_data(1,lcd_bf);
